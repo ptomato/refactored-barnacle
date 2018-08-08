@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <template class="RbAppPage" parent="GtkGrid">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="row_spacing">18</property>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">&lt;big&gt;&lt;big&gt;&lt;big&gt;&lt;b&gt;Imagine that instead of this screen,
+you have the Dinosaurs app.&lt;/b&gt;&lt;/big&gt;&lt;/big&gt;&lt;/big&gt;
+
+For now, click the arrow above
+instead of "Flip to Hack",
+to go to the next level down,
+and ▶ below to relaunch Dinosaurs.</property>
+        <property name="use_markup">True</property>
+        <property name="justify">center</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkButton" id="playButton">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+        <property name="halign">center</property>
+        <property name="valign">center</property>
+        <child>
+          <object class="GtkImage">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="icon_name">media-playback-start-symbolic</property>
+            <property name="icon_size">6</property>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">1</property>
+      </packing>
+    </child>
+  </template>
+</interface>

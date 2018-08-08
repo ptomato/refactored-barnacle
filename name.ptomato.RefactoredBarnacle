@@ -1,0 +1,3 @@
+#!/bin/sh
+
+gjs -I /app/share/refactored-barnacle /app/share/refactored-barnacle/main.js

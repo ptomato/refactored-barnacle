@@ -1,0 +1,34 @@
+---
+app-id: name.ptomato.RefactoredBarnacle
+base: com.endlessm.dinosaurs.en
+base-version: eos3
+runtime: com.endlessm.apps.Platform
+runtime-version: '5'
+sdk: com.endlessm.apps.Sdk
+command: name.ptomato.RefactoredBarnacle
+finish-args:
+  - --share=network
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --socket=pulseaudio
+  - --device=dri
+  - --talk-name=org.gnome.Software
+  - --talk-name=org.gnome.OnlineAccounts
+  - --talk-name=org.gnome.ControlCenter
+  - --talk-name=org.freedesktop.portal.Flatpak
+modules:
+  - name: gtksourceview
+    config-opts:
+      - --disable-vala
+      - --disable-gtk-doc
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/gtksourceview/3.24/gtksourceview-3.24.8.tar.xz
+        sha256: 1e9bb8ff190db705deb916dd23ff681f0e8803aec407bf0fd64c7e615ac436fe
+  - name: refactored-barnacle
+    buildsystem: meson
+    sources:
+      - type: git
+        path: .
+        branch: master

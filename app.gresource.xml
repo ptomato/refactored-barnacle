@@ -1,0 +1,10 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/name/ptomato/RefactoredBarnacle">
+    <file compressed="true" preprocess="xml-stripblanks">appwindow.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">app.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">controlpanel.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">hackerview.ui</file>
+  </gresource>
+</gresources>
