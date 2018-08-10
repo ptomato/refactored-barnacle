@@ -66,6 +66,7 @@ var RbAppWindow = GObject.registerClass({
     }
 
     _onPlayClicked() {
-        this._model.launch();
+        this._model.launch()
+            .catch(logError);
     }
 });

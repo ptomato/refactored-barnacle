@@ -1,6 +1,59 @@
 /* exported RbModel */
 
-const {GLib, GObject} = imports.gi;
+const {Gio, GLib, GObject} = imports.gi;
+
+const _SANDBOX_PATH = `${GLib.get_home_dir()}/.var/app/name.ptomato.RefactoredBarnacle/sandbox`;
+const _SANDBOX = Gio.File.new_for_path(_SANDBOX_PATH);
+const _PRIO = GLib.PRIORITY_DEFAULT;
+
+function promisify(prototype, asyncName, finishName) {
+    prototype[`_real_${asyncName}`] = prototype[asyncName];
+    prototype[asyncName] = function(...args) {
+        if (!args.every(arg => typeof arg !== 'function'))
+            return this[`_real_${asyncName}`](...args);
+
+        return new Promise((resolve, reject) => {
+            const callerStack = new Error().stack
+                .split('\n')
+                .filter(line => !line.match(/promisify/))
+                .join('\n');
+            this[`_real_${asyncName}`](...args, function(source, res) {
+                try {
+                    const result = source[finishName](res);
+                    resolve(result);
+                } catch (error) {
+                    if (error.stack)
+                        error.stack += `--- Called from: ---\n${callerStack}`;
+                    else
+                        error.stack = callerStack;
+                    reject(error);
+                }
+            });
+        });
+    };
+}
+const Gio_File_prototype = Gio.File.new_for_path('dummy').constructor.prototype;
+promisify(Gio_File_prototype, 'delete_async', 'delete_finish');
+promisify(Gio_File_prototype, 'make_directory_async', 'make_directory_finish');
+promisify(Gio_File_prototype, 'replace_async', 'replace_finish');
+promisify(Gio.OutputStream.prototype, 'close_async', 'close_finish');
+promisify(Gio.Subprocess.prototype, 'wait_check_async', 'wait_check_finish');
+
+async function _writeToSandboxFile(string, filename) {
+    try {
+        await _SANDBOX.make_directory_async(_PRIO, null);
+    } catch (e) {
+        if (!e.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.EXISTS))
+            throw e;
+    }
+    const file = _SANDBOX.get_child(filename);
+    const baseStream = await file.replace_async(null, false,
+        Gio.FileCreateFlags.NONE, _PRIO, null);
+    const stream = new Gio.DataOutputStream({baseStream});
+    stream.put_string(string, null);
+    await stream.close_async(_PRIO, null);
+    return file;
+}
 
 var RbModel = GObject.registerClass({
     Properties: {
@@ -62,11 +115,57 @@ var RbModel = GObject.registerClass({
         this.notify('arrangement');
     }
 
-    launch() {
-        print('Launching');
-        print('- Font size:', this._fontSize);
-        print('- Card borders:', this._cardBorders);
-        print('- Color scheme:', this._colorScheme);
-        print('- Arrangement:', this._arrangement);
+    _createSCSS() {
+        const scss = `
+$primary-light-color: #f4d94f;
+$primary-medium-color: #5a8715;
+
+$title-font: Skranji;
+$logo-font: 'Patrick Hand SC';
+
+@import 'thematic';
+
+.BannerDynamic__logo {
+    font-weight: 400;
+    color: white;
+}
+
+.home-page .Card__title {
+    font-weight: bold;
+    font-size: ${this._fontSize * 0.156}em;
+}
+
+.set-page .Card__title {
+    font-weight: bold;
+    font-size: ${this._fontSize * 0.338}em;
+}`;
+        return _writeToSandboxFile(scss, 'hack.scss');
+    }
+
+    _createYAML() {
+        const yaml = "!import 'thematic'";
+        return _writeToSandboxFile(yaml, 'hack.yaml');
+    }
+
+    async launch() {
+        const scssFile = await this._createSCSS();
+        const yamlFile = await this._createYAML();
+        const proc = new Gio.Subprocess({
+            argv: [
+                'flatpak-spawn',
+                '--sandbox-expose-ro=hack.yaml',
+                '--sandbox-expose-ro=hack.scss',
+                'com.endlessm.dinosaurs.en',
+                '-J', `${_SANDBOX_PATH}/hack.yaml`,
+                '-O', `${_SANDBOX_PATH}/hack.scss`,
+            ],
+        });
+        proc.init(null);
+        try {
+            await proc.wait_check_async(null);
+        } finally {
+            scssFile.delete_async(GLib.PRIORITY_LOW, null);
+            yamlFile.delete_async(GLib.PRIORITY_LOW, null);
+        }
     }
 });

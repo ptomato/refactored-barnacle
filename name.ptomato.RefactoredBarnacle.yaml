@@ -2,7 +2,7 @@
 app-id: name.ptomato.RefactoredBarnacle
 base: com.endlessm.dinosaurs.en
 base-version: eos3
-runtime: com.endlessm.apps.Platform
+runtime: com.endlessm.apps.Sdk  # required to enable the Katcus options
 runtime-version: '5'
 sdk: com.endlessm.apps.Sdk
 command: name.ptomato.RefactoredBarnacle
@@ -17,6 +17,8 @@ finish-args:
   - --talk-name=org.gnome.OnlineAccounts
   - --talk-name=org.gnome.ControlCenter
   - --talk-name=org.freedesktop.portal.Flatpak
+  - --own-name=com.endlessm.dinosaurs.en
+  - --own-name=name.ptomato.RefactoredBarnacle
 modules:
   - name: gtksourceview
     config-opts:
