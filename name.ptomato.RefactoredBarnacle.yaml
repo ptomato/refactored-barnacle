@@ -17,6 +17,7 @@ finish-args:
   - --talk-name=org.gnome.OnlineAccounts
   - --talk-name=org.gnome.ControlCenter
   - --talk-name=org.freedesktop.portal.Flatpak
+  - --system-talk-name=com.endlessm.Metrics
   - --own-name=com.endlessm.dinosaurs.en
   - --own-name=name.ptomato.RefactoredBarnacle
 modules:
