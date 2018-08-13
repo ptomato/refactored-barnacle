@@ -2,6 +2,8 @@
 
 const {Gio, GLib, GObject} = imports.gi;
 
+const {generateSCSS, generateWebSCSS, generateYAML} = imports.gen;
+
 const _SANDBOX_PATH = `${GLib.get_home_dir()}/.var/app/name.ptomato.RefactoredBarnacle/sandbox`;
 const _SANDBOX = Gio.File.new_for_path(_SANDBOX_PATH);
 const _PRIO = GLib.PRIORITY_DEFAULT;
@@ -116,229 +118,17 @@ var RbModel = GObject.registerClass({
     }
 
     _createSCSS() {
-        const scss = `
-$primary-light-color: #f4d94f;
-$primary-medium-color: #5a8715;
-
-$title-font: Skranji;
-$logo-font: 'Patrick Hand SC';
-
-@import 'thematic';
-
-.BannerDynamic__logo {
-    font-weight: 400;
-    color: white;
-}
-
-.home-page .Card__title {
-    font-weight: bold;
-    font-size: ${this._fontSize * 0.156}em;
-}
-
-.set-page .Card__title {
-    font-weight: bold;
-    font-size: ${this._fontSize * 0.338}em;
-}
-
-.LayoutSidebar .sidebar .ContentGroupNoResultsMessage {
-    &__title {
-        font-size: ${this._fontSize * 3}px;
-    }
-
-    &__subtitle {
-        font-size: ${this._fontSize * 2}px;
-    }
-}
-
-.CardDefault {
-    &__title {
-        font-size: ${this._fontSize * 1.8}px;
-    }
-
-    &__synopsis {
-        font-size: ${this._fontSize * 1.6}px;
-    }
-
-    &__context {
-        font-size: ${this._fontSize * 1.4}px;
-    }
-
-    &.CardText {
-        &.width-h,
-        &.width-g,
-        &.width-f,
-        &.width-e.height-e {
-            .CardDefault__title {
-                font-size: ${this._fontSize * 4.8}px;
-            }
-            .CardDefault__synopsis {
-                font-size: ${this._fontSize * 2}px;
-            }
-        }
-
-        &.width-e.height-d,
-        &.width-e.height-c {
-            .CardDefault__title {
-                font-size: ${this._fontSize * 3.68}px;
-            }
-        }
-
-        &.width-e,
-        &.width-d {
-            .CardDefault__title {
-                font-size: ${this._fontSize * 2.72}px;
-            }
-        }
-
-        &.width-c {
-            .CardDefault__title {
-                font-size: ${this._fontSize * 2.304}px;
-            }
-        }
-
-        &.width-b {
-            .CardDefault__title {
-                font-size: ${this._fontSize * 1.8}px;
-            }
-        }
-
-        &.height-a {
-            .CardDefault__title {
-                font-size: ${this._fontSize * 1.6}px;
-            }
-        }
-    }
-
-    &.CardPolaroid {
-        &.width-h,
-        &.width-g,
-        &.width-f,
-        &.width-e.height-e {
-            .CardDefault__title {
-                font-size: ${this._fontSize * 3.68}px;
-            }
-        }
-
-        &.width-h.height-b,
-        &.width-g.height-b,
-        &.width-f.height-b,
-        &.width-e,
-        &.width-d.height-e,
-        &.width-d.height-d {
-            .CardDefault__title {
-                font-size: ${this._fontSize * 2.4}px;
-            }
-        }
-
-        &.width-d,
-        &.width-c,
-        &.width-b.height-e,
-        &.width-b.height-d {
-            .CardDefault__title {
-                font-size: ${this._fontSize * 2}px;
-            }
-        }
-
-        &.width-b,
-        &.height-a {
-            .CardDefault__title {
-                font-size: ${this._fontSize * 1.6}px;
-            }
-        }
-    }
-
-    &.CardPost {
-        .CardDefault__context {
-            font-size: ${this._fontSize * 1.4}px;
-        }
-
-        &.width-h,
-        &.width-g {
-            .CardDefault__title {
-                font-size: ${this._fontSize * 4.8}px;
-            }
-        }
-
-        &.width-h.height-c,
-        &.width-g.height-c,
-        &.width-f,
-        &.width-e.height-e {
-            .CardDefault__title {
-                font-size: ${this._fontSize * 3.68}px;
-            }
-        }
-
-        &.width-g.height-b,
-        &.width-h.height-b,
-        &.width-f.height-b,
-        &.width-e,
-        &.width-d.height-e,
-        &.width-d.height-d {
-            .CardDefault__title {
-                font-size: ${this._fontSize * 2.4}px;
-            }
-        }
-
-        &.width-d,
-        &.width-c,
-        &.width-b.height-e,
-        &.width-b.height-d {
-            .CardDefault__title {
-                font-size: ${this._fontSize * 2}px;
-            }
-        }
-
-        &.width-b,
-        &.height-a {
-            .CardDefault__title {
-                font-size: ${this._fontSize * 1.6}px;
-            }
-        }
-    }
-}
-
-.LayoutSidebar {
-    .content .BannerSearch__title {
-        font-size: ${this._fontSize * 7.2}px;
-    }
-
-    .sidebar .CardTitle {
-        &__title {
-            font-size: ${this._fontSize * 2}px;
-        }
-    }
-}
-
-.BannerSet .CardTitle {
-    &__title {
-        font-size: ${this._fontSize * 5.4}px;
-    }
-}
-
-.BannerDynamic {
-    font-size: ${this._fontSize * 2}px;
-}
-
-// Card borders
-
-.CardDefault {
-    border: ${this._cardBorders}px solid $primary-light-color;
-}
-`;
+        const scss = generateSCSS(this._fontSize, this._cardBorders);
         return _writeToSandboxFile(scss, 'hack.scss');
     }
 
     _createWebSCSS() {
-        const webSCSS = `
-html, body {
-    font-size: ${this._fontSize * 2.2}px;
-}
-`;
+        const webSCSS = generateWebSCSS(this._fontSize);
         return _writeToSandboxFile(webSCSS, 'hack_web.scss');
     }
 
     _createYAML() {
-        const yaml = "!import 'thematic'";
+        const yaml = generateYAML(this._arrangement);
         return _writeToSandboxFile(yaml, 'hack.yaml');
     }
 

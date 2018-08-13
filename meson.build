@@ -11,6 +11,7 @@ sources = [
     'appPage.js',
     'appWindow.js',
     'controlPanelPage.js',
+    'gen.js',
     'hackerViewPage.js',
     'main.js',
     'model.js',
