@@ -318,6 +318,12 @@ $logo-font: 'Patrick Hand SC';
 .BannerDynamic {
     font-size: ${this._fontSize * 2}px;
 }
+
+// Card borders
+
+.CardDefault {
+    border: ${this._cardBorders}px solid $primary-light-color;
+}
 `;
         return _writeToSandboxFile(scss, 'hack.scss');
     }
