@@ -152,9 +152,6 @@ $logo-font: 'Patrick Hand SC';
         const yamlFile = await this._createYAML();
         const proc = new Gio.Subprocess({
             argv: [
-                'flatpak-spawn',
-                '--sandbox-expose-ro=hack.yaml',
-                '--sandbox-expose-ro=hack.scss',
                 'com.endlessm.dinosaurs.en',
                 '-J', `${_SANDBOX_PATH}/hack.yaml`,
                 '-O', `${_SANDBOX_PATH}/hack.scss`,
