@@ -118,7 +118,8 @@ var RbModel = GObject.registerClass({
     }
 
     _createSCSS() {
-        const scss = generateSCSS(this._fontSize, this._cardBorders);
+        const scss = generateSCSS(this._fontSize, this._cardBorders,
+            this._colorScheme);
         return _writeToSandboxFile(scss, 'hack.scss');
     }
 

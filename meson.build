@@ -10,11 +10,13 @@ sources = [
     'app.js',
     'appPage.js',
     'appWindow.js',
+    'colorSchemeWidget.js',
     'controlPanelPage.js',
     'gen.js',
     'hackerViewPage.js',
     'main.js',
     'model.js',
+    'palette.js',
 ]
 
 install_data(sources)

@@ -1,10 +1,37 @@
 /* exported generateSCSS, generateWebSCSS, generateYAML */
 
-function generateSCSS(fontSize, cardBorders) {
-    return `
+const {PALETTES} = imports.palette;
+
+function _triple6bitToHex(r, g, b) {
+    function format(val) {
+        return (val << 2).toString(16).padStart(2, '0');
+    }
+    return `#${format(r)}${format(g)}${format(b)}`;
+}
+
+function generateSCSS(fontSize, cardBorders, colorScheme) {
+    let colorsSCSS;
+    if (colorScheme === 'default') {
+        colorsSCSS = `
 $primary-light-color: #f4d94f;
 $primary-medium-color: #5a8715;
+`;
+    } else {
+        const palette = PALETTES[colorScheme];
+        colorsSCSS = `
+$primary-light-color: ${_triple6bitToHex(palette[7])};
+$primary-medium-color: ${_triple6bitToHex(palette[1])};
+$primary-dark-color: ${_triple6bitToHex(palette[3])};
 
+$accent-light-color: ${_triple6bitToHex(palette[5])};
+$accent-dark-color: ${_triple6bitToHex(palette[6])};
+
+$background-light-color: ${_triple6bitToHex(palette[2])};
+$background-dark-color: ${_triple6bitToHex(palette[8])};
+`;
+    }
+    return `
+${colorsSCSS}
 $title-font: Skranji;
 $logo-font: 'Patrick Hand SC';
 
@@ -12,7 +39,7 @@ $logo-font: 'Patrick Hand SC';
 
 .BannerDynamic__logo {
     font-weight: 400;
-    color: white;
+    color: $primary-light-color;
 }
 
 .home-page .Card__title {
