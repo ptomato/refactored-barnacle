@@ -30,6 +30,7 @@ var RbAppWindow = GObject.registerClass({
         this._model = new RbModel();
 
         this._controlPanelPage.bindModel(this._model);
+        this._hackerViewPage.bindModel(this._model);
         this._deeperButton.connect('clicked', this._onDeeperClicked.bind(this));
         this._shallowerButton.connect('clicked', this._onShallowerClicked.bind(this));
         this._appPage.playButton.connect('clicked', this._onPlayClicked.bind(this));
@@ -63,6 +64,13 @@ var RbAppWindow = GObject.registerClass({
 
         this._labelStack.visibleChildName = newPage;
         this._pageStack.visibleChildName = newPage;
+
+        // Stop any pending compilation if switching away from the hacker view,
+        // and compile immediately
+        if (oldPage === 'hacker-view-page') {
+            this._hackerViewPage.ensureNoTimeout();
+            this._hackerViewPage.compile();
+        }
     }
 
     _onPlayClicked() {
