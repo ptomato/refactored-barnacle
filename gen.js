@@ -19,15 +19,15 @@ $primary-medium-color: #5a8715;
     } else {
         const palette = PALETTES[colorScheme];
         colorsSCSS = `
-$primary-light-color: ${_triple6bitToHex(palette[7])};
-$primary-medium-color: ${_triple6bitToHex(palette[1])};
-$primary-dark-color: ${_triple6bitToHex(palette[3])};
+$primary-light-color: ${_triple6bitToHex(...palette[7])};
+$primary-medium-color: ${_triple6bitToHex(...palette[1])};
+$primary-dark-color: ${_triple6bitToHex(...palette[3])};
 
-$accent-light-color: ${_triple6bitToHex(palette[5])};
-$accent-dark-color: ${_triple6bitToHex(palette[6])};
+$accent-light-color: ${_triple6bitToHex(...palette[5])};
+$accent-dark-color: ${_triple6bitToHex(...palette[6])};
 
-$background-light-color: ${_triple6bitToHex(palette[2])};
-$background-dark-color: ${_triple6bitToHex(palette[8])};
+$background-light-color: ${_triple6bitToHex(...palette[2])};
+$background-dark-color: ${_triple6bitToHex(...palette[8])};
 `;
     }
     return `
