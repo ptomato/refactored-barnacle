@@ -277,6 +277,24 @@ html, body {
 }
 
 function generateYAML(arrangement) {
-    void arrangement;  // not implemented yet
-    return "!import 'thematic'";
+    let moduleName;
+    switch (arrangement) {
+    case 'tiled-grid':
+        moduleName = 'TiledGrid';
+        break;
+    case 'windshield':
+        moduleName = 'Windshield';
+        break;
+    default:
+        moduleName = 'Piano';  // easter egg
+        break;
+    }
+
+    return `---
+overrides:
+  home-sets-arrangement:
+    type: Arrangement.${moduleName}
+---
+!import 'thematic'
+`;
 }

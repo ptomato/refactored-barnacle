@@ -10,6 +10,7 @@ sources = [
     'app.js',
     'appPage.js',
     'appWindow.js',
+    'arrangement.js',
     'colorSchemeWidget.js',
     'controlPanelPage.js',
     'gen.js',

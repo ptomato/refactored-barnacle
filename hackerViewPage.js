@@ -69,9 +69,10 @@ fontSize, cardBorders, colorScheme, arrangement…`;
             cardBorders: null,
             colorScheme: null,
             disco: null,
+            arrangement: null,
 
-            // define variables for all the palettes so that we don't have to
-            // care about whether they enter quotes or not
+            // define variables for all the string constants so that we don't
+            // have to care about whether they enter quotes or not
             arctic: 'arctic',
             auroraBorealis: 'aurora-borealis',
             gold: 'gold',
@@ -80,6 +81,8 @@ fontSize, cardBorders, colorScheme, arrangement…`;
             rose: 'rose',
             spacePigs: 'space-pigs',
             whyColors: 'why-colors',
+            tiledGrid: 'tiled-grid',
+            windshield: 'windshield',
         };
         try {
             // eslint-disable-next-line no-new-func
@@ -90,7 +93,8 @@ fontSize, cardBorders, colorScheme, arrangement…`;
             this._helpLabel.label = 'Try going back up to the app and launching it!';
 
             if (scope.fontSize === null && scope.cardBorders === null &&
-                scope.colorScheme === null && scope.disco === null) {
+                scope.colorScheme === null && scope.disco === null &&
+                scope.arrangement === null) {
                 this._helpHeading.label = "That code isn't doing anything";
                 this._helpLabel.label = `Try changing one of these things:
 fontSize, cardBorders, colorScheme, arrangement…`;
@@ -106,6 +110,8 @@ fontSize, cardBorders, colorScheme, arrangement…`;
                 this._model.color_scheme = scope.colorScheme;
             if (scope.disco !== null)
                 this._model.disco = scope.disco;
+            if (scope.arrangement !== null)
+                this._model.arrangement = scope.arrangement;
         } catch (e) {
             this._helpHeading.label = 'Error…';
             this._helpLabel.label = `${e}\n${e.stack}`;
