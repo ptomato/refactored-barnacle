@@ -61,11 +61,24 @@ var RbHackerViewPage = GObject.registerClass({
             this._helpHeading.label = 'Type here!';
             this._helpLabel.label = `Here are some things I understand:
 fontSize, cardBorder, colorScheme, arrangement...`;
-            return;
+            return GLib.SOURCE_REMOVE;
         }
 
         const scope = {
             fontSize: null,
+            cardBorder: null,
+            colorScheme: null,
+
+            // define variables for all the palettes so that we don't have to
+            // care about whether they enter quotes or not
+            arctic: 'arctic',
+            auroraBorealis: 'aurora-borealis',
+            gold: 'gold',
+            heavyMetal: 'heavy-metal',
+            jungle: 'jungle',
+            rose: 'rose',
+            spacePigs: 'space-pigs',
+            whyColors: 'why-colors',
         };
         try {
             // eslint-disable-next-line no-new-func
@@ -75,8 +88,21 @@ fontSize, cardBorder, colorScheme, arrangement...`;
             this._helpHeading.label = 'All good 👍';
             this._helpLabel.labl = 'Try going back up to the app and launching it!';
 
+            if (scope.fontSize === null && scope.cardBorder === null &&
+                scope.colorScheme === null) {
+                this._helpHeading.label = "That code isn't doing anything";
+                this._helpLabel.label = `Try changing one of these things:
+fontSize, cardBorder, colorScheme, arrangement...`;
+                return GLib.SOURCE_REMOVE;
+            }
+
             print('new scope', JSON.stringify(scope));
-            this._model.font_size = scope.fontSize;
+            if (scope.fontSize !== null)
+                this._model.font_size = scope.fontSize;
+            if (scope.cardBorder !== null)
+                this._model.card_border = scope.cardBorder;
+            if (scope.colorScheme !== null)
+                this._model.color_scheme = scope.colorScheme;
         } catch (e) {
             this._helpHeading.label = 'Error…';
             this._helpLabel.label = `${e}\n${e.stack}`;
