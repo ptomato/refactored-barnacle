@@ -60,13 +60,13 @@ var RbHackerViewPage = GObject.registerClass({
         if (code === '') {
             this._helpHeading.label = 'Type here!';
             this._helpLabel.label = `Here are some things I understand:
-fontSize, cardBorder, colorScheme, arrangement...`;
+fontSize, cardBorders, colorScheme, arrangement…`;
             return GLib.SOURCE_REMOVE;
         }
 
         const scope = {
             fontSize: null,
-            cardBorder: null,
+            cardBorders: null,
             colorScheme: null,
 
             // define variables for all the palettes so that we don't have to
@@ -86,21 +86,21 @@ fontSize, cardBorder, colorScheme, arrangement...`;
             func(scope);
 
             this._helpHeading.label = 'All good 👍';
-            this._helpLabel.labl = 'Try going back up to the app and launching it!';
+            this._helpLabel.label = 'Try going back up to the app and launching it!';
 
-            if (scope.fontSize === null && scope.cardBorder === null &&
+            if (scope.fontSize === null && scope.cardBorders === null &&
                 scope.colorScheme === null) {
                 this._helpHeading.label = "That code isn't doing anything";
                 this._helpLabel.label = `Try changing one of these things:
-fontSize, cardBorder, colorScheme, arrangement...`;
+fontSize, cardBorders, colorScheme, arrangement…`;
                 return GLib.SOURCE_REMOVE;
             }
 
             print('new scope', JSON.stringify(scope));
             if (scope.fontSize !== null)
                 this._model.font_size = scope.fontSize;
-            if (scope.cardBorder !== null)
-                this._model.card_border = scope.cardBorder;
+            if (scope.cardBorders !== null)
+                this._model.card_borders = scope.cardBorders;
             if (scope.colorScheme !== null)
                 this._model.color_scheme = scope.colorScheme;
         } catch (e) {
