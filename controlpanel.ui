@@ -108,20 +108,6 @@
       </packing>
     </child>
     <child>
-      <object class="GtkScale" id="cardBorderSlider">
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="adjustment">cardBorderAdjustment</property>
-        <property name="round_digits">0</property>
-        <property name="digits">0</property>
-      </object>
-      <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">3</property>
-        <property name="width">2</property>
-      </packing>
-    </child>
-    <child>
       <object class="GtkMenuButton" id="colorSchemeButton">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
@@ -148,6 +134,56 @@
       <packing>
         <property name="left_attach">1</property>
         <property name="top_attach">5</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkGrid">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkScale" id="cardBorderSlider">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
+            <property name="adjustment">cardBorderAdjustment</property>
+            <property name="round_digits">0</property>
+            <property name="digits">0</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+            <property name="height">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSwitch" id="discoSwitch">
+            <property name="visible">True</property>
+            <property name="sensitive">False</property>
+            <property name="can_focus">True</property>
+            <property name="halign">center</property>
+            <property name="valign">end</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Disco!</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">3</property>
+        <property name="width">2</property>
       </packing>
     </child>
   </template>

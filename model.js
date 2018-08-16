@@ -71,6 +71,9 @@ var RbModel = GObject.registerClass({
         arrangement: GObject.ParamSpec.string('arrangement', 'Arrangement', '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT,
             'grid'),
+        disco: GObject.ParamSpec.boolean('disco', 'Disco', '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT,
+            false),
     },
 }, class RbModel extends GObject.Object {
     get font_size() {
@@ -117,9 +120,20 @@ var RbModel = GObject.registerClass({
         this.notify('arrangement');
     }
 
+    get disco() {
+        return this._disco;
+    }
+
+    set disco(value) {
+        if ('_disco' in this && this._disco === value)
+            return;
+        this._disco = value;
+        this.notify('disco');
+    }
+
     _createSCSS() {
         const scss = generateSCSS(this._fontSize, this._cardBorders,
-            this._colorScheme);
+            this._colorScheme, this._disco);
         return _writeToSandboxFile(scss, 'hack.scss');
     }
 

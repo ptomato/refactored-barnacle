@@ -10,7 +10,8 @@ var RbControlPanelPage = GObject.registerClass({
     GTypeName: 'RbControlPanelPage',
     Template: 'resource:///name/ptomato/RefactoredBarnacle/controlpanel.ui',
     InternalChildren: ['cardBorderAdjustment', 'colorSchemeButton',
-        'colorSchemeGrid', 'colorSchemeMenu', 'fontSizeAdjustment'],
+        'colorSchemeGrid', 'colorSchemeMenu', 'discoSwitch',
+        'fontSizeAdjustment'],
 }, class RbControlPanelPage extends Gtk.Grid {
     _init(props = {}) {
         super._init(props);
@@ -27,11 +28,17 @@ var RbControlPanelPage = GObject.registerClass({
 
         this._colorSchemeGrid.connect('child-activated',
             this._onColorSchemeActivated.bind(this));
+        this._cardBorderAdjustment.connect('notify::value',
+            this._onCardBorderChanged.bind(this));
     }
 
     _onColorSchemeActivated(widget, child) {
         this._selectedColorScheme.color_scheme = child.get_child().color_scheme;
         this._colorSchemeMenu.popdown();
+    }
+
+    _onCardBorderChanged() {
+        this._discoSwitch.sensitive = this._cardBorderAdjustment.value > 0;
     }
 
     bindModel(model) {
@@ -41,6 +48,8 @@ var RbControlPanelPage = GObject.registerClass({
             GObject.BindingFlags.BIDIRECTIONAL);
         model.bind_property('color-scheme',
             this._selectedColorScheme, 'color-scheme',
+            GObject.BindingFlags.BIDIRECTIONAL);
+        model.bind_property('disco', this._discoSwitch, 'active',
             GObject.BindingFlags.BIDIRECTIONAL);
     }
 });

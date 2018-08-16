@@ -68,6 +68,7 @@ fontSize, cardBorders, colorScheme, arrangement…`;
             fontSize: null,
             cardBorders: null,
             colorScheme: null,
+            disco: null,
 
             // define variables for all the palettes so that we don't have to
             // care about whether they enter quotes or not
@@ -89,7 +90,7 @@ fontSize, cardBorders, colorScheme, arrangement…`;
             this._helpLabel.label = 'Try going back up to the app and launching it!';
 
             if (scope.fontSize === null && scope.cardBorders === null &&
-                scope.colorScheme === null) {
+                scope.colorScheme === null && scope.disco === null) {
                 this._helpHeading.label = "That code isn't doing anything";
                 this._helpLabel.label = `Try changing one of these things:
 fontSize, cardBorders, colorScheme, arrangement…`;
@@ -103,6 +104,8 @@ fontSize, cardBorders, colorScheme, arrangement…`;
                 this._model.card_borders = scope.cardBorders;
             if (scope.colorScheme !== null)
                 this._model.color_scheme = scope.colorScheme;
+            if (scope.disco !== null)
+                this._model.disco = scope.disco;
         } catch (e) {
             this._helpHeading.label = 'Error…';
             this._helpLabel.label = `${e}\n${e.stack}`;
