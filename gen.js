@@ -276,7 +276,7 @@ html, body {
 `;
 }
 
-function generateYAML(arrangement) {
+function generateYAML(arrangement, decodefunc) {
     let moduleName;
     switch (arrangement) {
     case 'tiled-grid':
@@ -290,10 +290,24 @@ function generateYAML(arrangement) {
         break;
     }
 
+    let decodefuncParam = '';
+    if (decodefunc) {
+        decodefuncParam = `      decodefunc: |
+        ${decodefunc}\n`;
+    }
+
     return `---
 overrides:
   home-sets-arrangement:
     type: Arrangement.${moduleName}
+  home-sets-card:
+    type: Card.Rot13
+    properties:
+      rotation: 13
+      excluded_types:
+        - 0
+        - 1
+${decodefuncParam}\
 ---
 !import 'thematic'
 `;
