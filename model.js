@@ -74,6 +74,9 @@ var RbModel = GObject.registerClass({
         disco: GObject.ParamSpec.boolean('disco', 'Disco', '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT,
             false),
+        decodefunc: GObject.ParamSpec.string('decodefunc', 'Decode function', '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT,
+            ''),
     },
 }, class RbModel extends GObject.Object {
     get font_size() {
@@ -131,6 +134,17 @@ var RbModel = GObject.registerClass({
         this.notify('disco');
     }
 
+    get decodefunc() {
+        return this._decodefunc;
+    }
+
+    set decodefunc(value) {
+        if ('_decodefunc' in this && this._decodefunc === value)
+            return;
+        this._decodefunc = value;
+        this.notify('decodefunc');
+    }
+
     _createSCSS() {
         const scss = generateSCSS(this._fontSize, this._cardBorders,
             this._colorScheme, this._disco);
@@ -143,7 +157,7 @@ var RbModel = GObject.registerClass({
     }
 
     _createYAML() {
-        const yaml = generateYAML(this._arrangement);
+        const yaml = generateYAML(this._arrangement, this._decodefunc);
         return _writeToSandboxFile(yaml, 'hack.yaml');
     }
 
@@ -157,6 +171,7 @@ var RbModel = GObject.registerClass({
                 '-J', `${_SANDBOX_PATH}/hack.yaml`,
                 '-O', `${_SANDBOX_PATH}/hack.scss`,
                 '-w', `${_SANDBOX_PATH}/hack_web.scss`,
+                '-E', '/app/share/refactored-barnacle/app.gresource',
             ],
         });
         proc.init(null);

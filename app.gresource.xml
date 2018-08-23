@@ -7,5 +7,9 @@
     <file compressed="true" preprocess="xml-stripblanks">colorschemewidget.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">controlpanel.ui</file>
     <file compressed="true" preprocess="xml-stripblanks">hackerview.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">card/rot13.ui</file>
+  </gresource>
+  <gresource prefix="/app/js">
+    <file compressed="true">card/rot13.js</file>
   </gresource>
 </gresources>

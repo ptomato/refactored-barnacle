@@ -5,8 +5,8 @@ const {GLib, GObject, Gtk, GtkSource} = imports.gi;
 var RbHackerViewPage = GObject.registerClass({
     GTypeName: 'RbHackerViewPage',
     Template: 'resource:///name/ptomato/RefactoredBarnacle/hackerview.ui',
-    InternalChildren: ['scroll', 'helpButton', 'helpHeading', 'helpLabel',
-        'helpMessage', 'okButton'],
+    InternalChildren: ['decodeScroll', 'helpButton', 'helpHeading', 'helpLabel',
+        'helpMessage', 'okButton', 'scroll'],
 }, class RbHackerViewPage extends Gtk.Overlay {
     _init(props = {}) {
         super._init(props);
@@ -14,13 +14,20 @@ var RbHackerViewPage = GObject.registerClass({
         this._codeView = new GtkSource.View({visible: true});
         this._scroll.add(this._codeView);
 
+        this._decodeView = new GtkSource.View({visible: true});
+        this._decodeScroll.add(this._decodeView);
+
         const provider = new Gtk.CssProvider();
         provider.load_from_data('*{font-family: monospace;}');
         this._codeView.get_style_context().add_provider(provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+        this._decodeView.get_style_context().add_provider(provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
         this._codeView.buffer.connect('changed',
             this._onBufferChanged.bind(this));
+        this._decodeView.buffer.connect('changed',
+            this._onDecodeBufferChanged.bind(this));
         this._helpButton.connect('clicked', this._onHelpClicked.bind(this));
         this._okButton.connect('clicked', this._onOkClicked.bind(this));
 
@@ -31,6 +38,10 @@ var RbHackerViewPage = GObject.registerClass({
         this.ensureNoTimeout();
         this._compileTimeout = GLib.timeout_add_seconds(GLib.PRIORITY_HIGH, 1,
             this.compile.bind(this));
+    }
+
+    _onDecodeBufferChanged() {
+        this._model.decodefunc = this._decodeView.buffer.text;
     }
 
     _onHelpClicked() {
