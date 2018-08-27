@@ -307,6 +307,15 @@ overrides:
       excluded_types:
         - 0
         - 1
+${decodefuncParam}
+  app-banner:
+    type: Banner.Rot13
+    properties:
+      mode: full
+      layout: horizontal
+      valign: center
+      halign: center
+      rotation: 13
 ${decodefuncParam}\
 ---
 !import 'thematic'
