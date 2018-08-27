@@ -35,7 +35,6 @@ function promisify(prototype, asyncName, finishName) {
     };
 }
 const Gio_File_prototype = Gio.File.new_for_path('dummy').constructor.prototype;
-promisify(Gio_File_prototype, 'delete_async', 'delete_finish');
 promisify(Gio_File_prototype, 'make_directory_async', 'make_directory_finish');
 promisify(Gio_File_prototype, 'replace_async', 'replace_finish');
 promisify(Gio.OutputStream.prototype, 'close_async', 'close_finish');
@@ -178,9 +177,10 @@ var RbModel = GObject.registerClass({
         try {
             await proc.wait_check_async(null);
         } finally {
-            scssFile.delete_async(GLib.PRIORITY_LOW, null);
-            yamlFile.delete_async(GLib.PRIORITY_LOW, null);
-            webFile.delete_async(GLib.PRIORITY_LOW, null);
+            // delete, but ignore errors
+            scssFile.delete_async(GLib.PRIORITY_LOW, null, () => void 0);
+            yamlFile.delete_async(GLib.PRIORITY_LOW, null, () => void 0);
+            webFile.delete_async(GLib.PRIORITY_LOW, null, () => void 0);
         }
     }
 });
