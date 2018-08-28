@@ -76,6 +76,9 @@ var RbModel = GObject.registerClass({
         decodefunc: GObject.ParamSpec.string('decodefunc', 'Decode function', '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT,
             ''),
+        noise: GObject.ParamSpec.boolean('noise', 'Noise', '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT,
+            false),
     },
 }, class RbModel extends GObject.Object {
     get font_size() {
@@ -144,6 +147,17 @@ var RbModel = GObject.registerClass({
         this.notify('decodefunc');
     }
 
+    get noise() {
+        return this._noise;
+    }
+
+    set noise(value) {
+        if ('_noise' in this && this._noise === value)
+            return;
+        this._noise = value;
+        this.notify('noise');
+    }
+
     _createSCSS() {
         const scss = generateSCSS(this._fontSize, this._cardBorders,
             this._colorScheme, this._disco);
@@ -156,7 +170,8 @@ var RbModel = GObject.registerClass({
     }
 
     _createYAML() {
-        const yaml = generateYAML(this._arrangement, this._decodefunc);
+        const yaml = generateYAML(this._arrangement, this._decodefunc,
+            this._noise);
         return _writeToSandboxFile(yaml, 'hack.yaml');
     }
 
