@@ -276,7 +276,7 @@ html, body {
 `;
 }
 
-function generateYAML(arrangement, decodefunc) {
+function generateYAML(arrangement, decodefunc, noise) {
     let moduleName;
     switch (arrangement) {
     case 'tiled-grid':
@@ -299,7 +299,9 @@ function generateYAML(arrangement, decodefunc) {
     return `---
 overrides:
   home-sets-arrangement:
-    type: Arrangement.${moduleName}
+    type: Arrangement.${moduleName}Noise
+    properties:
+      noise: ${noise}
   home-sets-card:
     type: Card.Rot13
     properties:

@@ -13,7 +13,7 @@ var RbControlPanelPage = GObject.registerClass({
     InternalChildren: ['arrangementButton', 'arrangementGrid',
         'arrangementMenu', 'cardBorderAdjustment', 'colorSchemeButton',
         'colorSchemeGrid', 'colorSchemeMenu', 'discoSwitch',
-        'fontSizeAdjustment'],
+        'fontSizeAdjustment', 'noiseSwitch'],
 }, class RbControlPanelPage extends Gtk.Grid {
     _init(props = {}) {
         super._init(props);
@@ -70,6 +70,8 @@ var RbControlPanelPage = GObject.registerClass({
             this._selectedArrangement, 'arrangement',
             GObject.BindingFlags.BIDIRECTIONAL);
         model.bind_property('disco', this._discoSwitch, 'active',
+            GObject.BindingFlags.BIDIRECTIONAL);
+        model.bind_property('noise', this._noiseSwitch, 'active',
             GObject.BindingFlags.BIDIRECTIONAL);
     }
 });

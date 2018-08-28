@@ -35,6 +35,13 @@
       </object>
     </child>
   </object>
+  <object class="GtkAdjustment" id="fontSizeAdjustment">
+    <property name="lower">1</property>
+    <property name="upper">20</property>
+    <property name="value">10</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <template class="RbControlPanelPage" parent="GtkGrid">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -200,12 +207,35 @@
         <property name="width">2</property>
       </packing>
     </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Make Noise!</property>
+        <property name="wrap">True</property>
+        <attributes>
+          <attribute name="weight" value="bold"/>
+          <attribute name="size" value="16000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">6</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSwitch" id="noiseSwitch">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="halign">center</property>
+        <property name="valign">center</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">7</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
   </template>
-  <object class="GtkAdjustment" id="fontSizeAdjustment">
-    <property name="lower">1</property>
-    <property name="upper">20</property>
-    <property name="value">10</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
 </interface>
