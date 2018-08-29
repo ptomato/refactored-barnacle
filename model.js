@@ -176,9 +176,11 @@ var RbModel = GObject.registerClass({
     }
 
     async launch() {
-        const scssFile = await this._createSCSS();
-        const yamlFile = await this._createYAML();
-        const webFile = await this._createWebSCSS();
+        const [scssFile, yamlFile, webFile] = await Promise.all([
+            this._createSCSS(),
+            this._createYAML(),
+            this._createWebSCSS(),
+        ]);
         const proc = new Gio.Subprocess({
             argv: [
                 'com.endlessm.dinosaurs.en',
