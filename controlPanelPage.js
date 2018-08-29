@@ -27,7 +27,7 @@ var RbControlPanelPage = GObject.registerClass({
         });
         this._colorSchemeButton.add(this._selectedColorScheme);
 
-        ['tiled-grid', 'windshield'].forEach(arrangement => {
+        ['tiled-grid', 'windshield', 'piano'].forEach(arrangement => {
             const widget = new RbArrangementWidget({arrangement});
             this._arrangementGrid.add(widget);
         });

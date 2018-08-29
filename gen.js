@@ -279,14 +279,15 @@ html, body {
 function generateYAML(arrangement, decodefunc, noise) {
     let moduleName;
     switch (arrangement) {
-    case 'tiled-grid':
-        moduleName = 'TiledGrid';
+    case 'piano':
+        moduleName = 'Piano';
         break;
     case 'windshield':
         moduleName = 'Windshield';
         break;
+    case 'tiled-grid':
     default:
-        moduleName = 'Piano';  // easter egg
+        moduleName = 'TiledGrid';
         break;
     }
 
