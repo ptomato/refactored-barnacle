@@ -5,6 +5,7 @@ const {GObject, Gtk} = imports.gi;
 const DISPLAY_NAMES = {
     'tiled-grid': 'Tiled Grid',
     windshield: 'Windshield',
+    piano: 'Piano',
 };
 
 var RbArrangementWidget = GObject.registerClass({
