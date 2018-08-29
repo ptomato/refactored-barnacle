@@ -18,6 +18,10 @@
     <file>wacky/3</file> <!--59552__kauaiboyrk__obsound-zipchopedvoice.wav, CC Sampling+ -->
     <file>wacky/4</file> <!--59553__kauaiboyrk__obsound-tremoloagressivebeep.wav, CC Sampling+ -->
     <file>wacky/5</file> <!--90030__tewell__oneascendingquack.wav, CC-BY -->
+    <file>piano/0</file> <!--39177__jobro__piano-ff-030.wav, CC-BY -->
+    <file>piano/1</file> <!--39179__jobro__piano-ff-032.wav, CC-BY -->
+    <file>piano/2</file> <!--39181__jobro__piano-ff-034.wav, CC-BY -->
+    <file>piano/3</file> <!--39182__jobro__piano-ff-035.wav, CC-BY -->
   </gresource>
   <gresource prefix="/app/js">
     <file compressed="true">arrangement/pianoNoise.js</file>

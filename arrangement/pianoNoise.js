@@ -1,9 +1,10 @@
 /* exported PianoNoise */
 /* global custom_modules */
 
-const {Gdk, GObject} = imports.gi;
+const {GLib, GObject, Gtk} = imports.gi;
 
 const Module = imports.framework.interfaces.module;
+const Dispatcher = imports.framework.dispatcher;
 const {Piano} = imports.framework.modules.arrangement.piano;
 const {AudioPlayer} = custom_modules.audioPlayer;
 
@@ -21,7 +22,19 @@ var PianoNoise = new Module.Class({
         this._ncards = 0;
         // eslint-disable-next-line no-restricted-syntax
         this.parent(props);
-        this._audioPlayer = new AudioPlayer({channels: 4});
+        this._audioPlayer = new AudioPlayer({
+            channels: 4,
+            soundpack: 'piano',
+        });
+
+        if (this._noise) {
+            // Prevent clicks on cards from actually going anywhere
+            // Priority slightly lower than the dispatcher priority
+            GLib.idle_add(Gtk.PRIORITY_RESIZE - 9, () => {
+                Dispatcher.get_default().pause();
+                return GLib.SOURCE_REMOVE;
+            });
+        }
     },
 
     get noise() {
@@ -41,13 +54,8 @@ var PianoNoise = new Module.Class({
     pack_card(card) {
         if (this._noise) {
             const id = this._ncards++;
-            card.connect('enter-notify-event', () => {
+            card.connect('clicked', () => {
                 this._audioPlayer.play(id);
-                return Gdk.EVENT_PROPAGATE;
-            });
-            card.connect('leave-notify-event', () => {
-                this._audioPlayer.stop(id);
-                return Gdk.EVENT_PROPAGATE;
             });
         }
         // eslint-disable-next-line no-restricted-syntax
