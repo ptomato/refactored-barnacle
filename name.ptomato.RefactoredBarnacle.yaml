@@ -3,7 +3,7 @@ app-id: name.ptomato.RefactoredBarnacle
 base: com.endlessm.dinosaurs.en
 base-version: eos3
 runtime: com.endlessm.apps.Sdk  # required to enable the Katcus options
-runtime-version: '5'
+runtime-version: master
 sdk: com.endlessm.apps.Sdk
 command: name.ptomato.RefactoredBarnacle
 finish-args:
