@@ -13,7 +13,7 @@ var RbControlPanelPage = GObject.registerClass({
     InternalChildren: ['arrangementButton', 'arrangementGrid',
         'arrangementMenu', 'cardBorderAdjustment', 'colorSchemeButton',
         'colorSchemeGrid', 'colorSchemeMenu', 'discoSwitch',
-        'fontSizeAdjustment', 'noiseSwitch'],
+        'fontSizeAdjustment', 'noiseSwitch', 'passtuneRevealer'],
 }, class RbControlPanelPage extends Gtk.Grid {
     _init(props = {}) {
         super._init(props);
@@ -58,6 +58,11 @@ var RbControlPanelPage = GObject.registerClass({
         this._discoSwitch.sensitive = this._cardBorderAdjustment.value > 0;
     }
 
+    _updatePasstuneHint() {
+        this._passtuneRevealer.revealChild = this._model.arrangement === 'piano' &&
+            this._model.noise;
+    }
+
     bindModel(model) {
         model.bind_property('card-borders', this._cardBorderAdjustment, 'value',
             GObject.BindingFlags.BIDIRECTIONAL);
@@ -73,5 +78,10 @@ var RbControlPanelPage = GObject.registerClass({
             GObject.BindingFlags.BIDIRECTIONAL);
         model.bind_property('noise', this._noiseSwitch, 'active',
             GObject.BindingFlags.BIDIRECTIONAL);
+
+        model.connect('notify::arrangement', this._updatePasstuneHint.bind(this));
+        model.connect('notify::noise', this._updatePasstuneHint.bind(this));
+
+        this._model = model;
     }
 });
