@@ -10,6 +10,9 @@ var AudioPlayer = GObject.registerClass({
         channels: GObject.ParamSpec.uint('channels', 'Channels', '',
             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
             0, 6, 1),
+        soundpack: GObject.ParamSpec.string('soundpack', 'Sound Pack', '',
+            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+            'wacky'),
     },
 }, class AudioPlayer extends GObject.Object {
     _init(props = {}) {
@@ -18,7 +21,7 @@ var AudioPlayer = GObject.registerClass({
         this._pipelines = [];
         for (let ch = 0; ch < this._channels; ch++) {
             const playbin = Gst.ElementFactory.make('playbin', `play${ch}`);
-            playbin.uri = `${RESOURCE_URI}/wacky/${ch}`;
+            playbin.uri = `${RESOURCE_URI}/${this._soundpack}/${ch}`;
             const pipeline = new Gst.Pipeline({name: `pipeline${ch}`});
             pipeline.add(playbin);
 
@@ -27,6 +30,9 @@ var AudioPlayer = GObject.registerClass({
             bus.connect('message::error', (b, message) => {
                 const [error, debugInfo] = message.parse_error();
                 logError(error, debugInfo);
+            });
+            bus.connect('message::eos', () => {
+                this.stop(ch);
             });
 
             this._pipelines.push(pipeline);
@@ -43,6 +49,14 @@ var AudioPlayer = GObject.registerClass({
 
     set channels(value) {
         this._channels = value;
+    }
+
+    get soundpack() {
+        return this._soundpack;
+    }
+
+    set soundpack(value) {
+        this._soundpack = value;
     }
 
     play(channel) {
